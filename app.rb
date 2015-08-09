@@ -17,16 +17,21 @@ class User
 
   property :id,   Serial
   property :name, Text
+
+  validates_presence_of   :name
+  validates_uniqueness_of :name
 end
 
 post '/users' do
   response = {}
-  if User.create(name: params['name'])
+  user = User.new(name: params['name'])
+  if user.save
     response[:status]  = 'success'
     response[:message] = 'User added successfully'
   else
     response[:status]  = 'fail'
     response[:message] = 'Can\'t add user.'
+    response[:errors]  = user.errors.to_a
   end
   response.to_json
 end
