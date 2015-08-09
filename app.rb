@@ -20,15 +20,36 @@ class User
 end
 
 post '/users' do
-  User.create(name: params['name'])
+  response = {}
+  if User.create(name: params['name'])
+    response[:status] = 'success'
+  else
+    response[:status] = 'fail'
+  end
+  response.to_json
 end
 
 get '/users' do
-  User.all.map(&:name).join(',')
+  users = User.all.map(&:name)
+  response = { data: {} } 
+  if users.empty?
+    response[:status] = 'fail'
+  else
+    response[:status] = 'success'
+    response[:data][:users] = users
+  end
+  response.to_json 
 end
 
-get '/status' do
-  'Hello World!!!'
+get '/env' do
+  {
+    status: 'success',
+    data: {
+      db_user: DB_USER,
+      db_pass: DB_PASS,
+      db_name: DB_NAME
+    }
+  }.to_json
 end
 
 DataMapper.finalize.auto_upgrade!
