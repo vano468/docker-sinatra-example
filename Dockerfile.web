@@ -10,6 +10,6 @@ WORKDIR $APP_HOME
 
 ADD Gemfile $APP_HOME/
 ADD Gemfile.lock $APP_HOME/
-RUN bundle install --jobs 8 --frozen
+RUN bundle install --jobs 8
 
 ADD . $APP_HOME
