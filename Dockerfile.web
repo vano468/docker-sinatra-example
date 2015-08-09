@@ -1,0 +1,15 @@
+FROM ruby:2.2
+MAINTAINER Ivan Kornilov <vano468@gmail.com>
+
+RUN apt-get update -qq && apt-get install -y build-essential postgresql-server-dev-9.4 libpq-dev
+
+ENV APP_HOME /usr/src/app
+
+RUN mkdir -p $APP_HOME
+WORKDIR $APP_HOME
+
+ADD Gemfile $APP_HOME/
+ADD Gemfile.lock $APP_HOME/
+RUN bundle install --jobs 8 --frozen
+
+ADD . $APP_HOME
