@@ -11,7 +11,6 @@ docker-compose ps
 
 ### When you need to rebuild web:
 ```
-docker-compose stop web
 docker-compose build web
-docker-compose start web
+docker-compose stop web && docker-compose up -d web
 ```
