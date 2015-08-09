@@ -22,9 +22,11 @@ end
 post '/users' do
   response = {}
   if User.create(name: params['name'])
-    response[:status] = 'success'
+    response[:status]  = 'success'
+    response[:message] = 'User added successfully'
   else
-    response[:status] = 'fail'
+    response[:status]  = 'fail'
+    response[:message] = 'Can\'t add user.'
   end
   response.to_json
 end
@@ -33,7 +35,8 @@ get '/users' do
   users = User.all.map(&:name)
   response = { data: {} } 
   if users.empty?
-    response[:status] = 'fail'
+    response[:status]  = 'fail'
+    response[:message] = 'Users list is empty.'
   else
     response[:status] = 'success'
     response[:data][:users] = users
